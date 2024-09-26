@@ -1,0 +1,57 @@
+name: dockercompose13371986837610165155
+services:
+  backmedicos:
+    build:
+      context: C:\Users\Franco\Desktop\proyectoMedicos\BackMedicos
+      dockerfile: BackMedicos/Dockerfile
+    depends_on:
+      sqlServiceDocker:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+      CONNECTION_STRING: '"Server=sqlServiceDocker;Database=Customers;User Id=sa;Password=backAPI@@1995;TrustServerCertificate=True"'
+    networks:
+      myRedDocker: null
+    ports:
+      - mode: ingress
+        target: 8081
+        published: "5001"
+        protocol: tcp
+      - mode: ingress
+        target: 8080
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\Franco\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Franco\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+  sqlServiceDocker:
+    container_name: sql-server-docker
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: backAPI@@1995
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      myRedDocker: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "8006"
+        protocol: tcp
+networks:
+  myRedDocker:
+    name: dockercompose13371986837610165155_myRedDocker
