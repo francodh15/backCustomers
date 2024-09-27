@@ -6,7 +6,7 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 #ENV DB_CONNECTION_STRING="Server=sqlServiceDocker;Database=Customers;User Id=sa;Password=backAPI@@1995;TrustServerCertificate=True"
-#ENV DB_PASSWORD="backAPI@@1995"
+
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release

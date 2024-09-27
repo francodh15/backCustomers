@@ -11,7 +11,7 @@ services:
         - 8006:1433
     environment:
         - ACCEPT_EULA=Y
-        - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+        - MSSQL_SA_PASSWORD=backAPI@@1995
     networks:
         - myRedDocker
   
@@ -27,9 +27,8 @@ services:
     ports:
         - 5001:8081
     environment:
-      - DB_HOST=sql-server-docker
-      - DB_USER=sa
-      - DB_PASSWORD=backAPI@@1995
-      - DB_DATABASE_NAME=Customers
-      - DB_TRUST_SERVER_CERTIFICATE=True
-      - DB_CONNECTION_STRING=Server=${DB_HOST};Database=${DB_DATABASE_NAME};User=${DB_USER};Password=${DB_PASSWORD};TrustServerCertificate=${DB_TRUST_SERVER_CERTIFICATE};
+        - DB_SERVER=sqlServiceDocker
+        - DB_NAME=Customers
+        - DB_USER=sa
+        - DB_PASSWORD=backAPI@@1995
+        - DB_SERVER_CERTIFICATE=True
