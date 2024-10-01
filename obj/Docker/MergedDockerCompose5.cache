@@ -9,7 +9,7 @@ services:
       labels:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: BackMedicos
-    container_name: BackMedicos_1
+    container_name: BackMedicos
     depends_on:
       sqlServiceDocker:
         condition: service_started
@@ -24,7 +24,11 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
-    image: backmedicos
+      DB_NAME: AdminMedicos
+      DB_PASSWORD: backAPI@@1995
+      DB_SERVER: sqlServiceDocker
+      DB_SERVER_CERTIFICATE: "True"
+      DB_USER: sa
     labels:
       com.microsoft.visual-studio.project-name: BackMedicos
       com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages --additionalProbingPath /.nuget/fallbackpackages  "/app/BackMedicos.dll"'
@@ -91,7 +95,7 @@ services:
     container_name: sql-server-docker
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: SENN@sprite15
+      MSSQL_SA_PASSWORD: backAPI@@1995
     image: mcr.microsoft.com/mssql/server:2022-latest
     networks:
       myRedDocker: null

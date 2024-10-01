@@ -5,12 +5,15 @@ services:
       context: C:\Users\Franco\Desktop\proyectoMedicos\BackMedicos
       dockerfile: BackMedicos/Dockerfile
       args:
-        BUILD_CONFIGURATION: Debug
+        BUILD_CONFIGURATION: Release
       labels:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: BackMedicos
-      target: base
-    container_name: BackMedicos_1
+    container_name: BackMedicos
+    depends_on:
+      sqlServiceDocker:
+        condition: service_started
+        required: true
     entrypoint:
       - dotnet
       - --roll-forward
@@ -21,18 +24,24 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
-      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
-      DOTNET_USE_POLLING_FILE_WATCHER: "1"
-      NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
-    image: backmedicos:dev
+      DB_NAME: Customers
+      DB_PASSWORD: backAPI@@1995
+      DB_SERVER: sqlServiceDocker
+      DB_SERVER_CERTIFICATE: "True"
+      DB_USER: sa
     labels:
-      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages --additionalProbingPath /.nuget/fallbackpackages  "/app/bin/Debug/net8.0/BackMedicos.dll"'
+      com.microsoft.visual-studio.project-name: BackMedicos
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages --additionalProbingPath /.nuget/fallbackpackages  "/app/BackMedicos.dll"'
       com.microsoft.visualstudio.debuggee.killprogram: dotnet --roll-forward Major /VSTools/DistrolessHelper/DistrolessHelper.dll --stop dotnet
       com.microsoft.visualstudio.debuggee.program: dotnet
       com.microsoft.visualstudio.debuggee.workingdirectory: /app
     networks:
-      default: null
+      myRedDocker: null
     ports:
+      - mode: ingress
+        target: 8081
+        published: "5001"
+        protocol: tcp
       - mode: ingress
         target: 8080
         protocol: tcp
@@ -54,30 +63,8 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Franco\Desktop\proyectoMedicos\BackMedicos\BackMedicos
-        target: /app
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Franco\Desktop\proyectoMedicos\BackMedicos
-        target: /src
-        bind:
-          create_host_path: true
-      - type: bind
         source: C:\Users\Franco\vsdbg\vs2017u5
         target: /remote_debugger
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Franco\.nuget\packages
-        target: /.nuget/packages
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages
-        target: /.nuget/fallbackpackages
-        read_only: true
         bind:
           create_host_path: true
       - type: bind
@@ -104,6 +91,19 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  sqlServiceDocker:
+    container_name: sql-server-docker
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: backAPI@@1995
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      myRedDocker: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "8006"
+        protocol: tcp
 networks:
-  default:
-    name: dockercompose13371986837610165155_default
+  myRedDocker:
+    name: dockercompose13371986837610165155_myRedDocker

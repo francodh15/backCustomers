@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   backmedicos:
-    container_name: "BackMedicos_1"
+    container_name: "BackMedicos"
     build:
       args:
         BUILD_CONFIGURATION: Release

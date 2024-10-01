@@ -7,7 +7,10 @@ namespace BackMedicos.DataBase
 {
     public class ApplicationDbContext : DbContext
     {
-      public  DbSet<Customer> Customers { get; set; }
+      public DbSet<Clientes> Clientes { get; set; }
+      public DbSet<Medicos> Medicos { get; set; }
+      public DbSet<Usuarios> Usuarios { get; set; }
+      public DbSet<Login> Login { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base (options)
         {
 			try

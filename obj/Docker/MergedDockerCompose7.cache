@@ -10,7 +10,7 @@ services:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: BackMedicos
       target: base
-    container_name: BackMedicos_1
+    container_name: BackMedicos
     depends_on:
       sqlServiceDocker:
         condition: service_started
@@ -26,6 +26,12 @@ services:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: http://+:8080
+      DB_NAME: AdminMedicos
+      DB_PASSWORD: backAPI@@1995
+      DB_SERVER: sqlServiceDocker
+      DB_SERVER_CERTIFICATE: "True"
+      DB_USER: sa
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
       NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
     image: backmedicos:dev
@@ -38,7 +44,7 @@ services:
       myRedDocker: null
     ports:
       - mode: ingress
-        target: 8081
+        target: 8080
         published: "5001"
         protocol: tcp
       - mode: ingress

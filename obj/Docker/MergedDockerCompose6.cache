@@ -12,12 +12,17 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
-    image: backmedicos
+      ASPNETCORE_URLS: http://+:8080
+      DB_NAME: AdminMedicos
+      DB_PASSWORD: backAPI@@1995
+      DB_SERVER: sqlServiceDocker
+      DB_SERVER_CERTIFICATE: "True"
+      DB_USER: sa
     networks:
       myRedDocker: null
     ports:
       - mode: ingress
-        target: 8081
+        target: 8080
         published: "5001"
         protocol: tcp
       - mode: ingress

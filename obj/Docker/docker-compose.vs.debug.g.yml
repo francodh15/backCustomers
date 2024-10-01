@@ -3,7 +3,7 @@ version: '3.4'
 services:
   backmedicos:
     image: backmedicos:dev
-    container_name: "BackMedicos_1"
+    container_name: "BackMedicos"
     build:
       args:
         BUILD_CONFIGURATION: Debug

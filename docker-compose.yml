@@ -28,7 +28,7 @@ services:
         - 5001:8081
     environment:
         - DB_SERVER=sqlServiceDocker
-        - DB_NAME=Customers
+        - DB_NAME=AdminMedicos
         - DB_USER=sa
         - DB_PASSWORD=backAPI@@1995
         - DB_SERVER_CERTIFICATE=True

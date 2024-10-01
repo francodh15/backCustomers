@@ -11,6 +11,10 @@ services:
         com.microsoft.visual-studio.project-name: BackMedicos
       target: base
     container_name: BackMedicos
+    depends_on:
+      sqlServiceDocker:
+        condition: service_started
+        required: true
     entrypoint:
       - dotnet
       - --roll-forward
@@ -22,6 +26,11 @@ services:
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_HTTPS_PORTS: "8081"
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DB_NAME: Customers
+      DB_PASSWORD: backAPI@@1995
+      DB_SERVER: sqlServiceDocker
+      DB_SERVER_CERTIFICATE: "True"
+      DB_USER: sa
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
       NUGET_FALLBACK_PACKAGES: /.nuget/fallbackpackages
     image: backmedicos:dev
@@ -31,8 +40,12 @@ services:
       com.microsoft.visualstudio.debuggee.program: dotnet
       com.microsoft.visualstudio.debuggee.workingdirectory: /app
     networks:
-      default: null
+      myRedDocker: null
     ports:
+      - mode: ingress
+        target: 8081
+        published: "5001"
+        protocol: tcp
       - mode: ingress
         target: 8080
         protocol: tcp
@@ -104,6 +117,19 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  sqlServiceDocker:
+    container_name: sql-server-docker
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: backAPI@@1995
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      myRedDocker: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "8006"
+        protocol: tcp
 networks:
-  default:
-    name: dockercompose13371986837610165155_default
+  myRedDocker:
+    name: dockercompose13371986837610165155_myRedDocker
