@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
+#EXPOSE 8081
 #ENV DB_CONNECTION_STRING="Server=sqlServiceDocker;Database=Customers;User Id=sa;Password=backAPI@@1995;TrustServerCertificate=True"
 
 

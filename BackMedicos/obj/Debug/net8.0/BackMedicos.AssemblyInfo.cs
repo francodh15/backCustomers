@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BackMedicos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0429ec2584f34a69b19aebf179b3b80da248b2e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0edf955c94bc27ae51224f1b1968cfc9b469eb0")]
 [assembly: System.Reflection.AssemblyProductAttribute("BackMedicos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BackMedicos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
